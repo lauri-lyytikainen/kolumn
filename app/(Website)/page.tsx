@@ -28,7 +28,7 @@ export default function Home() {
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 {isSignedIn ? (
-                  <Button size="lg" className="px-8">
+                  <Button size="lg" className="px-8" onClick={() => window.location.href = '/dashboard'}>
                     Go to Dashboard
                   </Button>
                 ) : (
@@ -122,7 +122,7 @@ export default function Home() {
               </p>
               <div className="mt-10">
                 {isSignedIn ? (
-                  <Button size="lg" className="px-8">
+                  <Button size="lg" className="px-8" onClick={() => window.location.href = '/dashboard'}>
                     Go to Dashboard
                   </Button>
                 ) : (
