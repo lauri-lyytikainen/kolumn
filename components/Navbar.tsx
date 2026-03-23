@@ -1,7 +1,8 @@
 'use client'
 
-import { SignInButton, SignOutButton, UserButton, useUser } from "@clerk/nextjs"
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Navbar() {
   const { isSignedIn } = useUser()
@@ -9,39 +10,35 @@ export default function Navbar() {
   return (
     <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold text-primary">Kolumn</h1>
+          <Link href="/">
+            <h1 className="text-2xl font-bold text-primary">Kolumn</h1>
+          </Link>
         </div>
 
-        {/* Navigation Links */}
         <div className="hidden md:flex items-center space-x-8">
-          {isSignedIn && (
-            <a href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
-              Dashboard
-            </a>
-          )}
-          <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
+          <Link href="/#features" className="text-muted-foreground hover:text-foreground transition-colors">
             Features
-          </a>
-          <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
+          </Link>
+          <Link href="/#about" className="text-muted-foreground hover:text-foreground transition-colors">
             About
-          </a>
-          <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">
+          </Link>
+          <Link href="/#contact" className="text-muted-foreground hover:text-foreground transition-colors">
             Contact
-          </a>
+          </Link>
         </div>
 
-        {/* Auth Section */}
         <div className="flex items-center space-x-4">
           {isSignedIn ? (
             <div className="flex items-center space-x-3">
-              <UserButton />
-              <SignOutButton>
-                <Button variant="outline" size="sm">
-                  Sign Out
+              {isSignedIn && (
+                <Button asChild variant="outline">
+                  <a href="/dashboard">
+                    Dashboard
+                  </a>
                 </Button>
-              </SignOutButton>
+              )}
+              <UserButton />
             </div>
           ) : (
             <div className="flex items-center space-x-3">
