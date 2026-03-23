@@ -6,6 +6,7 @@ import { useEffect } from "react"
 import Dashboard from "@/components/Dashboard"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function DashboardPage() {
   const { isSignedIn, isLoaded } = useUser()
@@ -20,8 +21,8 @@ export default function DashboardPage() {
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+        <div className="flex flex-col justify-center items-center text-center">
+          <Spinner className="size-8" />
           <p className="mt-2 text-muted-foreground">Loading...</p>
         </div>
       </div>
