@@ -8,6 +8,7 @@ import CreateBoardDialog from "./CreateBoardDialog";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Spinner } from "./ui/spinner";
+import Board from "./Board";
 
 export default function Dashboard() {
   const { organization } = useOrganization({
@@ -25,9 +26,6 @@ export default function Dashboard() {
     clerkOrgId ? { clerkOrgId } : "skip"
   );
 
-  const handleBoardCreated = () => {
-    // The query will automatically refetch due to Convex reactivity
-  };
 
   if (!user) {
     return (
@@ -59,7 +57,6 @@ export default function Dashboard() {
       <div className="flex justify-end">
         <CreateBoardDialog
           clerkOrgId={clerkOrgId}
-          onSuccess={handleBoardCreated}
         >
           <Button size="lg">
             <Plus />
@@ -89,7 +86,6 @@ export default function Dashboard() {
             </p>
             <CreateBoardDialog
               clerkOrgId={clerkOrgId}
-              onSuccess={handleBoardCreated}
             >
               <Button variant="outline">
                 <Plus className="mr-2" />
@@ -99,26 +95,8 @@ export default function Dashboard() {
           </div>
         ) : (
           // Board list
-          boards.map((board) => (
-            <Card key={board._id} className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <div className="min-h-24">
-                  <h3 className="font-semibold text-lg mb-2 truncate">{board.name}</h3>
-                  {board.description && (
-                    <p className="text-sm text-muted-foreground mb-2 overflow-hidden" style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: 'vertical'
-                    }}>
-                      {board.description}
-                    </p>
-                  )}
-                  <p className="text-xs text-muted-foreground">
-                    Created {new Date(board._creationTime).toLocaleDateString()}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+          boards.map((board, index) => (
+            <Board board={board} key={index} />
           ))
         )}
       </div>

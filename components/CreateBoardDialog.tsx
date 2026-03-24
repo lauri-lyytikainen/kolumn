@@ -5,24 +5,23 @@ import { useMutation } from "convex/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogFooter, 
-  DialogHeader, 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
-  DialogTrigger 
+  DialogTrigger
 } from "@/components/ui/dialog"
 import { api } from "@/convex/_generated/api"
 
 interface CreateBoardDialogProps {
   children: React.ReactNode
   clerkOrgId: string
-  onSuccess?: () => void
 }
 
-export default function CreateBoardDialog({ children, clerkOrgId, onSuccess }: CreateBoardDialogProps) {
+export default function CreateBoardDialog({ children, clerkOrgId }: CreateBoardDialogProps) {
   const [open, setOpen] = useState(false)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
@@ -41,13 +40,12 @@ export default function CreateBoardDialog({ children, clerkOrgId, onSuccess }: C
         name: name.trim(),
         description: description.trim() || undefined,
       })
-      
+
       // Reset form and close dialog
       setName("")
       setDescription("")
       setOpen(false)
-      
-      onSuccess?.()
+
     } catch (error) {
       console.error("Failed to create board:", error)
       alert(error instanceof Error ? error.message : "Failed to create board")
@@ -97,16 +95,16 @@ export default function CreateBoardDialog({ children, clerkOrgId, onSuccess }: C
           </div>
 
           <DialogFooter>
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => setOpen(false)}
               disabled={isSubmitting}
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isSubmitting || !name.trim()}
             >
               {isSubmitting ? "Creating..." : "Create Board"}
