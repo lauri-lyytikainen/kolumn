@@ -33,9 +33,9 @@ export default function Navbar() {
             <div className="flex items-center space-x-3">
               {isSignedIn && (
                 <Button asChild variant="outline">
-                  <a href="/dashboard">
+                  <Link href="/dashboard">
                     Dashboard
-                  </a>
+                  </Link>
                 </Button>
               )}
               <UserButton />

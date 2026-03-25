@@ -1,7 +1,6 @@
 'use client'
 
 import { OrganizationSwitcher, useOrganization, useUser } from "@clerk/nextjs"
-import { Card, CardContent } from "./ui/card";
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import CreateBoardDialog from "./CreateBoardDialog";
