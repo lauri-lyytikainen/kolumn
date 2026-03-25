@@ -37,8 +37,8 @@ export default function Board({ board }: BoardProps) {
                     Move
                   </DropdownMenuItem>
                   <AlertDialog>
-                    <AlertDialogTrigger>
-                      <DropdownMenuItem variant="destructive" >
+                    <AlertDialogTrigger asChild>
+                      <DropdownMenuItem variant="destructive" onSelect={(e: any) => e.preventDefault()}>
                         <Trash />
                         Delete
                       </DropdownMenuItem>
@@ -54,7 +54,7 @@ export default function Board({ board }: BoardProps) {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>
-                          Cancle
+                          Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction variant={"destructive"} onClick={() => deleteBoard({ boardId: board._id })}>
                           Delete
