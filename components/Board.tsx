@@ -6,6 +6,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
+import EditBoardDialog from "./EditBoardDialog";
+import MoveBoardDialog from "./MoveBoardDialog";
 
 interface BoardProps {
   board: Doc<"boards">
@@ -13,6 +15,37 @@ interface BoardProps {
 
 export default function Board({ board }: BoardProps) {
   const deleteBoard = useMutation(api.boards.deleteBoard);
+
+  function DeleteAlert() {
+    return (
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <DropdownMenuItem variant="destructive" onSelect={(e: any) => e.preventDefault()}>
+            <Trash />
+            Delete
+          </DropdownMenuItem>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you absolutely sure?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanetly delete this board.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction variant={"destructive"} onClick={() => deleteBoard({ boardId: board._id })}>
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    )
+  }
 
   return (
     <Card key={board._id} className="cursor-pointer hover:shadow-md transition-shadow">
@@ -28,40 +61,19 @@ export default function Board({ board }: BoardProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Pen />
-                    Edit
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <FolderInput />
-                    Move
-                  </DropdownMenuItem>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <DropdownMenuItem variant="destructive" onSelect={(e: any) => e.preventDefault()}>
-                        <Trash />
-                        Delete
-                      </DropdownMenuItem>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you absolutely sure?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This action cannot be undone. This will permanetly delete this board.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>
-                          Cancel
-                        </AlertDialogCancel>
-                        <AlertDialogAction variant={"destructive"} onClick={() => deleteBoard({ boardId: board._id })}>
-                          Delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                  <EditBoardDialog board={board}>
+                    <DropdownMenuItem onSelect={(e: any) => e.preventDefault()}>
+                      <Pen />
+                      Edit
+                    </DropdownMenuItem>
+                  </EditBoardDialog>
+                  <MoveBoardDialog board={board}>
+                    <DropdownMenuItem onSelect={(e: any) => e.preventDefault()}>
+                      <FolderInput />
+                      Move
+                    </DropdownMenuItem>
+                  </MoveBoardDialog>
+                  <DeleteAlert />
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>

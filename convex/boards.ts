@@ -78,7 +78,7 @@ export const getBoard = query({
       return null;
     }
 
-    // For now, allow access if user created it or is in the same org
+    // TODO: For now, allow access if user created it or is in the same org
     // In a real app, you'd check Clerk org membership
     return board;
   },
@@ -102,7 +102,7 @@ export const updateBoard = mutation({
       throw new Error("Board not found");
     }
 
-    // For now, only allow the creator to update
+    // TODO: For now, only allow the creator to update
     // In a real app, you'd check Clerk org membership and roles
     if (board.createdBy !== identity.tokenIdentifier) {
       throw new Error("Not authorized to update this board");
@@ -115,6 +115,32 @@ export const updateBoard = mutation({
     await ctx.db.patch(args.boardId, updates);
   },
 });
+
+export const moveBoard = mutation({
+  args: {
+    boardId: v.id("boards"),
+    newOrgId: v.string()
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const board = await ctx.db.get(args.boardId);
+    if (!board) {
+      throw new Error("Board not found");
+    }
+
+    if (args.newOrgId.length == 0) {
+      throw new Error("Organization id can not be empty")
+    }
+
+    // TODO: Also check that the user has organization priviledges
+
+    await ctx.db.patch(args.boardId, { clerkOrgId: args.newOrgId })
+  }
+})
 
 // Delete board (actually archive it)
 export const deleteBoard = mutation({
@@ -130,7 +156,7 @@ export const deleteBoard = mutation({
       throw new Error("Board not found");
     }
 
-    // For now, only allow the creator to delete
+    // TODO: For now, only allow the creator to delete
     // In a real app, you'd check Clerk org membership and roles
     if (board.createdBy !== identity.tokenIdentifier) {
       throw new Error("Not authorized to delete this board");
