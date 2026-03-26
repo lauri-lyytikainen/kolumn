@@ -63,7 +63,7 @@ export default function CreateBoardDialog({ children, clerkOrgId }: CreateBoardD
         <DialogHeader>
           <DialogTitle>Create Board</DialogTitle>
           <DialogDescription>
-            Create a new kanban board for this organization.
+            Create a new kanban board.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
